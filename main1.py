@@ -37,25 +37,9 @@ class MedicalDiagnosticModule():
         for i in range( 0 , self.intersectionmatrix.shape[0] ):
             for j in range( 0 , self.intersectionmatrix.shape[1]-1 ):
                 self.intersectionmatrix[i][15] += self.intersectionmatrix[i][j]
-
-    def generateCSV( self , matrix ):
-        self.indexdoc += 1
-        name = './' + str( self.indexdoc ) + '.csv'
-        file = open( name , "w" )
-        for i in range( 0 , matrix.shape[0]):
-            string = ""
-            for j in range( 0 , matrix.shape[1] ):
-                string += str( matrix[i][j] ) + ","
-            string += "\n"
-            file.write( string )
-        file.close()
-        print("<<<Archivo CSV generado correctamente>>>")
 ###################################################################################################
 #                                             <MAIN>
 if __name__ == '__main__':
     mdm = MedicalDiagnosticModule()
     mdm.generateSymptoms()
     mdm.intersectMatrix()
-    mdm.generateCSV( mdm.preloadedmatrix )
-    mdm.generateCSV( mdm.usersymptoms )
-    mdm.generateCSV( mdm.intersectionmatrix )
