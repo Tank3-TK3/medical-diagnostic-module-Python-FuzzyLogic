@@ -1,8 +1,8 @@
 ###################################################################################################
 #                                            <MODULES>
-import numpy as np
-import json
 import sys
+import json
+import numpy as np
 ###################################################################################################
 #                                             <CLASS>
 class MedicalDiagnosticModule():
@@ -33,10 +33,8 @@ class MedicalDiagnosticModule():
         matrix = matrix.split( '],[' )
         self.usersymptoms = np.array( [matrix[0].split( ',' )] , dtype=np.float64 )
         self.listdiseases = np.array( matrix[1].split( ',' ) )
-        print( self.usersymptoms )
-        print( self.listdiseases )
 
-    def intersectMatrix( self ):
+    def generatesDiagnosis( self ):
         for i in range( 0 , self.preloadedmatrix.shape[0] ):
             for j in range( 0 , self.preloadedmatrix.shape[1] ):
                 if self.preloadedmatrix[i][j] >= self.usersymptoms[0][j]:
@@ -53,4 +51,4 @@ class MedicalDiagnosticModule():
 if __name__ == '__main__':
     mdm = MedicalDiagnosticModule()
     mdm.processARGV( sys.argv[1] )
-    print(mdm.intersectMatrix())
+    print(mdm.generatesDiagnosis())
