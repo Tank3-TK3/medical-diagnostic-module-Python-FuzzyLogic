@@ -51,10 +51,12 @@ class MedicalDiagnosticModule():
             for j in range( 0 , self.intersectionmatrix.shape[1]-1 ):
                 self.intersectionmatrix[i][15] += self.intersectionmatrix[i][j]
             self.diagnosisresult[0][i] = self.intersectionmatrix[i][15]
-        return json.dumps(self.diagnosisresult[0].tolist())
 
     def specificDiagnosis( self ):
-        return json.dumps(self.diagnosisresult[0].tolist())
+        self.generalDiagnosis()
+        for i in range( 0 , 10 ):
+            if str( i ) not in self.listdiseases:
+                self.diagnosisresult[0][i] = 0
 ###################################################################################################
 #                                             <MAIN>
 if __name__ == '__main__':
@@ -67,9 +69,10 @@ if __name__ == '__main__':
         exit()
     if mdm.listdiseases[0] == '':
         try:
-            print( mdm.generalDiagnosis() )
+            mdm.generalDiagnosis()
         except IndexError:
             print( '>INVALID ARGUMENTS RECEIVED<' )
             exit()
     else:
-        print( mdm.specificDiagnosis() )
+        mdm.specificDiagnosis()
+    print( json.dumps( mdm.diagnosisresult[0].tolist() ) )
