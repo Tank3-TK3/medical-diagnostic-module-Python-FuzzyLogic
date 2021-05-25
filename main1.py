@@ -31,7 +31,11 @@ class MedicalDiagnosticModule():
         matrix = matrix.replace( '[[' , '' )
         matrix = matrix.replace( ']]' , '' )
         matrix = matrix.split( '],[' )
-        self.usersymptoms = np.array( [matrix[0].split( ',' )] , dtype=np.float64 )
+        try:
+            self.usersymptoms = np.array( [matrix[0].split( ',' )] , dtype=np.float64 )
+        except ValueError:
+            print( '>VALUES CANNOT BE CONVERTED TO FLOATS<' )
+            exit()
         self.listdiseases = np.array( matrix[1].split( ',' ) )
 
     def generatesDiagnosis( self ):
@@ -50,5 +54,14 @@ class MedicalDiagnosticModule():
 #                                             <MAIN>
 if __name__ == '__main__':
     mdm = MedicalDiagnosticModule()
-    mdm.processARGV( sys.argv[1] )
-    print(mdm.generatesDiagnosis())
+    try:
+        if len( sys.argv[1] ) > 1 :
+            mdm.processARGV( sys.argv[1] )
+    except IndexError:
+        print( '>ARGUMENTS NOT RECEIVED<' )
+        exit()
+    try:
+        print( mdm.generatesDiagnosis() )
+    except IndexError:
+        print( '>INVALID ARGUMENTS RECEIVED<' )
+        exit()
