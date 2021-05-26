@@ -47,7 +47,7 @@ class MDM():
         m = m.split('],[')
         try:
             self.sintomasusuario = np.array([m[0].split(',')],dtype=np.float64)
-        except ValueError:
+        except:
             print('>LOS VALORES NO SE PUEDEN CONVERTIR <(Los valores de los síntomas son incorrectos)')
             exit()
         self.listaenfermedades = np.array(m[1].split( ',' ))
@@ -62,13 +62,13 @@ modulo = MDM()
 try:
     if len(sys.argv[1]) > 1:
         modulo.procesamientoARGV(sys.argv[1])
-except IndexError:
+except:
     print('>ARGUMENTOS NO RECIBIDOS<')
     exit()
 if modulo.listaenfermedades[0] == '':
     try:
         modulo.diagnosticoG()
-    except IndexError:
+    except:
         print('>ARGUMENTOS NO VÁLIDOS RECIBIDOS<')
         exit()
 else:
