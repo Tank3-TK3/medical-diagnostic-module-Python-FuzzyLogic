@@ -56,7 +56,7 @@ class MedicalDiagnosticModule():
         self.generalDiagnosis()
         for i in range( 0 , 10 ):
             if str( i ) not in self.listdiseases:
-                self.diagnosisresult[0][i] = 0
+                self.diagnosisresult[0][i] = -1
 ###################################################################################################
 #                                             <MAIN>
 if __name__ == '__main__':
