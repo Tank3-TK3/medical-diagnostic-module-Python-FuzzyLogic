@@ -2,7 +2,7 @@ import numpy as np
 import sys
 import json
 
-class ModuloDiagnosticoMedico():
+class MDM():
     matrizprecargada = None
     matrizinterseccion = None
     resultadosdiagnosticos = None
@@ -26,7 +26,7 @@ class ModuloDiagnosticoMedico():
                 [0.0,0.0,0.5,0.5,0.3,0.0,0.7,0.0,0.9,0.4,0.7,0.7,0.0,0.9,0.0]
             ])
 
-    def diagnosticoGeneral(self):
+    def diagnosticoG(self):
         for a in range(0,self.matrizprecargada.shape[0]):
             for b in range(0,self.matrizprecargada.shape[1]):
                 if self.matrizprecargada[a][b] >= self.sintomasusuario[0][b]:
@@ -52,13 +52,13 @@ class ModuloDiagnosticoMedico():
             exit()
         self.listaenfermedades = np.array(m[1].split( ',' ))
 
-    def diagnosticoEspecifico(self):
-        self.diagnosticoGeneral()
+    def diagnosticoE(self):
+        self.diagnosticoG()
         for indice in range(0,10):
             if str(indice) not in self.listaenfermedades:
                 self.resultadosdiagnosticos[0][indice] = -1
 
-modulo = ModuloDiagnosticoMedico()
+modulo = MDM()
 try:
     if len(sys.argv[1]) > 1:
         modulo.procesamientoARGV(sys.argv[1])
@@ -67,10 +67,10 @@ except IndexError:
     exit()
 if modulo.listaenfermedades[0] == '':
     try:
-        modulo.diagnosticoGeneral()
+        modulo.diagnosticoG()
     except IndexError:
         print('>ARGUMENTOS NO VÁLIDOS RECIBIDOS<')
         exit()
 else:
-    modulo.specificDiagnosis()
+    modulo.diagnosticoE()
 print(json.dumps(modulo.resultadosdiagnosticos[0].tolist()))
