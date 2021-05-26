@@ -24,7 +24,6 @@ class MedicalDiagnosticModule():
         self.diagnosisresult = np.zeros( ( 1 , 10 ) , dtype=np.float64 )
         self.usersymptoms = []
         self.listdiseases = []
-        self.indexdoc = 0
 
     def processARGV( self , matrix ):
         matrix = sys.argv[1]
