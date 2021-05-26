@@ -1,36 +1,76 @@
 import numpy as np
-import random
+import sys
+import json
 
-def generarSintomas(us):
-    for i in range(0,len(us[0])):
-        us[0][i] = random.random()
-    return us
+class ModuloDiagnosticoMedico():
+    matrizprecargada = None
+    matrizinterseccion = None
+    resultadosdiagnosticos = None
+    sintomasusuario = []
+    listaenfermedades = []
 
-def interseccionMatriz(mpc,mi,us):
-    for i in range(0,mpc.shape[0]):
-        for j in range(0,mpc.shape[1]):
-            if mpc[i][j] >= us[0][j]:
-                mi[i][j] = us[0][j]
-            else:
-                mi[i][j] = mpc[i][j]
-    for i in range(0,mi.shape[0]):
-        for j in range(0,mi.shape[1]-1):
-            mi[i][15] += mi[i][j]
-    return mi
+    def __init__(self):
+        self.matrizinterseccion = np.zeros((10,16))
+        self.resultadosdiagnosticos = np.zeros((1,10))
+        self.matrizprecargada=np.array(
+            [
+                [0.5,0.0,0.9,0.8,0.8,0.0,0.0,0.6,0.0,0.0,0.0,0.4,0.0,0.0,0.0],
+                [0.6,0.0,0.0,0.0,0.5,0.7,0.0,0.0,0.0,0.0,0.0,0.0,0.7,0.0,0.0],
+                [0.9,0.3,0.8,0.8,0.0,0.0,0.5,0.6,0.0,0.0,0.0,0.7,0.0,0.5,0.0],
+                [0.9,0.7,0.7,0.0,0.0,0.0,0.6,0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0],
+                [0.0,0.0,0.9,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.9,0.0,0.0,0.0],
+                [0.0,0.0,0.3,0.0,0.5,0.0,0.0,0.0,0.0,0.0,0.8,0.7,0.0,0.0,0.0],
+                [0.4,0.7,0.9,0.6,0.0,0.0,0.6,0.0,0.0,0.0,0.0,0.3,0.5,0.0,0.0],
+                [0.3,0.0,0.7,0.8,0.0,0.0,0.5,0.0,0.0,0.0,0.6,0.9,0.0,0.0,0.4],
+                [0.0,0.0,0.8,0.7,0.0,0.0,0.0,0.0,0.0,0.7,0.5,0.6,0.0,0.0,0.6],
+                [0.0,0.0,0.5,0.5,0.3,0.0,0.7,0.0,0.9,0.4,0.7,0.7,0.0,0.9,0.0]
+            ])
 
-mpc = [
-    [ 0.5 , 0   , 0.9 , 0.8 , 0.8 , 0   , 0   , 0.6 , 0   , 0   , 0   , 0.4 , 0   , 0   , 0   ],
-    [ 0.6 , 0   , 0   , 0   , 0.5 , 0.7 , 0   , 0   , 0   , 0   , 0   , 0   , 0.7 , 0   , 0   ],
-    [ 0.9 , 0.3 , 0.8 , 0.8 , 0   , 0   , 0.5 , 0.6 , 0   , 0   , 0   , 0.7 , 0   , 0.5 , 0   ],
-    [ 0.9 , 0.7 , 0.7 , 0   , 0   , 0   , 0.6 , 0.9 , 0   , 0   , 0   , 0   , 0   , 0   , 0   ],
-    [ 0   , 0   , 0.9 , 0   , 0   , 0   , 0   , 0   , 0   , 0   , 0   , 0.9 , 0   , 0   , 0   ],
-    [ 0   , 0   , 0.3 , 0   , 0.5 , 0   , 0   , 0   , 0   , 0   , 0.8 , 0.7 , 0   , 0   , 0   ],
-    [ 0.4 , 0.7 , 0.9 , 0.6 , 0   , 0   , 0.6 , 0   , 0   , 0   , 0   , 0.3 , 0.5 , 0   , 0   ],
-    [ 0.3 , 0   , 0.7 , 0.8 , 0   , 0   , 0.5 , 0   , 0   , 0   , 0.6 , 0.9 , 0   , 0   , 0.4 ],
-    [ 0   , 0   , 0.8 , 0.7 , 0   , 0   , 0   , 0   , 0   , 0.7 , 0.5 , 0.6 , 0   , 0   , 0.6 ],
-    [ 0   , 0   , 0.5 , 0.5 , 0.3 , 0   , 0.7 , 0   , 0.9 , 0.4 , 0.7 , 0.7 , 0   , 0.9 , 0   ]
-]
-mi = np.zeros((10,16),dtype=np.float64)
-us = np.zeros((1,15),dtype=np.float64)
-us = generarSintomas( us )
-mi = interseccionMatriz(mpc,mi,us)
+    def diagnosticoGeneral(self):
+        for a in range(0,self.matrizprecargada.shape[0]):
+            for b in range(0,self.matrizprecargada.shape[1]):
+                if self.matrizprecargada[a][b] >= self.sintomasusuario[0][b]:
+                    self.matrizinterseccion[a][b] = self.sintomasusuario[0][b]
+                else:
+                    self.matrizinterseccion[a][b] = self.matrizprecargada[a][b]
+        for a in range(0,self.matrizinterseccion.shape[0]):
+            for b in range(0,self.matrizinterseccion.shape[1]-1):
+                self.matrizinterseccion[a][15] += self.matrizinterseccion[a][b]
+            self.resultadosdiagnosticos[0][a] = self.matrizinterseccion[a][15]
+
+    def procesamientoARGV(self,m):
+        m = sys.argv[1]
+        m = m.replace(' ','')
+        m = m.replace(' ','')
+        m = m.replace('[[','')
+        m = m.replace(']]','')
+        m = m.split('],[')
+        try:
+            self.sintomasusuario = np.array([m[0].split(',')],dtype=np.float64)
+        except ValueError:
+            print('>LOS VALORES NO SE PUEDEN CONVERTIR <(Los valores de los síntomas son incorrectos)')
+            exit()
+        self.listaenfermedades = np.array(m[1].split( ',' ))
+
+    def diagnosticoEspecifico(self):
+        self.diagnosticoGeneral()
+        for indice in range(0,10):
+            if str(indice) not in self.listaenfermedades:
+                self.resultadosdiagnosticos[0][indice] = -1
+
+modulo = ModuloDiagnosticoMedico()
+try:
+    if len(sys.argv[1]) > 1:
+        modulo.procesamientoARGV(sys.argv[1])
+except IndexError:
+    print('>ARGUMENTOS NO RECIBIDOS<')
+    exit()
+if modulo.listaenfermedades[0] == '':
+    try:
+        modulo.diagnosticoGeneral()
+    except IndexError:
+        print('>ARGUMENTOS NO VÁLIDOS RECIBIDOS<')
+        exit()
+else:
+    modulo.specificDiagnosis()
+print(json.dumps(modulo.resultadosdiagnosticos[0].tolist()))
