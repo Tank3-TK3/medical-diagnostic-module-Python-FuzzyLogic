@@ -25,7 +25,7 @@ class MedicalDiagnosticModule():
         self.usersymptoms = []
         self.listdiseases = []
 
-    def processARGV( self , matrix ):
+    def processARGV( self ):
         matrix = sys.argv[1]
         matrix = matrix.replace( ' ' , '' )
         matrix = matrix.replace( ' ' , '' )
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     mdm = MedicalDiagnosticModule()
     try:
         if len( sys.argv[1] ) > 1 :
-            mdm.processARGV( sys.argv[1] )
+            mdm.processARGV()
     except IndexError:
         print( '>ARGUMENTS NOT RECEIVED<' )
         exit()
