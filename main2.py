@@ -38,7 +38,7 @@ class MDM():
                 self.matrizinterseccion[a][15] += self.matrizinterseccion[a][b]
             self.resultadosdiagnosticos[0][a] = self.matrizinterseccion[a][15]
 
-    def procesamientoARGV(self,m):
+    def procesamientoARGV(self):
         m = sys.argv[1]
         m = m.replace(' ','')
         m = m.replace(' ','')
@@ -61,7 +61,7 @@ class MDM():
 modulo = MDM()
 try:
     if len(sys.argv[1]) > 1:
-        modulo.procesamientoARGV(sys.argv[1])
+        modulo.procesamientoARGV()
 except:
     print('>ARGUMENTOS NO RECIBIDOS<')
     exit()
